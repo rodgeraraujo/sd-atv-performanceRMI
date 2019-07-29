@@ -1,26 +1,26 @@
 package sd.atv.rmi;
 
-import java.rmi.AlreadyBoundException;
+import sd.atv.rmi.interfaces.Identity;
+import sd.atv.rmi.util.IdentityManagerImpl;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * Identity MAnager Server
+ */
 public class Servidor {
-    public static void main(String[] args) {
-        final String name = "IdentifyManager";
+    public static void main(String[] args) throws RemoteException {
 
-        IdentityInterface manager = new IdentifyManager();
+        // Cria uma nova instancia de Identity(),
+        // recebendo uma instancia de IdentityManagerImpl()
+        Identity identity = new IdentityManagerImpl();
 
-        Registry registry = LocateRegistry.createRegistry(10099);
-        registry.bind(name, manager);
+        // O método LocateRegistry.createRegistry() é usado para criar uma referência do registro local, na porta 4321
+        Registry registry = LocateRegistry.createRegistry(4321);
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Pressione enter para parar e listar IDs usados");
-
-        scanner.nextLine();
-        manager.listAllUsedIDs();
-
-        registry.unbind(name);
+        // O método rebind () é então usado para vincular o nome ao objeto.
+        registry.rebind("Identity", identity);
     }
 }
