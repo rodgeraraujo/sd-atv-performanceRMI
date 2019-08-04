@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
- * Implementaçao do IdentityManager
+ *
  */
 public class IdentityManagerImpl extends UnicastRemoteObject implements Identity {
 
@@ -24,7 +24,8 @@ public class IdentityManagerImpl extends UnicastRemoteObject implements Identity
      * @return retorna um novo identificador
      */
     public synchronized int getIdentity(String appName) {
-        return id+1;
+        id++;
+        return id;
     }
 }
 
