@@ -10,7 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class IdentityManagerImpl extends UnicastRemoteObject implements Identity {
 
-    int id = 0;
+    AtomicInteger atomic = new AtomicInteger(0);
 
     /**
      * @throws RemoteException
@@ -24,8 +24,9 @@ public class IdentityManagerImpl extends UnicastRemoteObject implements Identity
      * @return retorna um novo identificador
      */
     public synchronized int getIdentity(String appName) {
-        id++;
-        return id;
+        // id++;
+        // return id;
+        return atomic.incrementAndGet();
     }
 }
 
