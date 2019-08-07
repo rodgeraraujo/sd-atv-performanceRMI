@@ -46,53 +46,59 @@ public class App1 {
         final long tempoInicial = System.currentTimeMillis();
 
         // Cria uma instancia das filas compartilhadas, para inserir, atualizar e remover
-//        final BlockingQueue<Integer> inserir = new ArrayBlockingQueue<Integer>(TAMANHO_DA_FILA);
         final BlockingQueue<Integer> inserir = new LinkedBlockingQueue<Integer>(TAMANHO_DA_FILA);
         final BlockingQueue<Integer> atualizar = new LinkedBlockingQueue<Integer>(TAMANHO_DA_FILA);
         final BlockingQueue<Integer> deletar = new LinkedBlockingQueue<Integer>(TAMANHO_DA_FILA);
 
         while (EXECUCOES <= limite) {
 
+            // Quantidade final e execuçoes
             EXECUCOES++;
 
             inserir.put(contador);
 
             // Criaçao de tres threads, cada uma com uma funçao especifica
 
-            //inserir usuario na tabela do banco de dados
+            // inserir usuario na tabela do banco de dados
             Runnable inserirUsuario = new Runnable() {
                 public void run() {
                     try {
                         Integer identificador = inserir.take();
-                        Usuario user = new Usuario(identificador, "Usuario " + identificador);
+                        Usuario user = new Usuario(identificador, "Usuario " + APP_NAME);
                         dao.inserir(user);
                         atualizar.put(identificador);
+
+                        System.out.println(APP_NAME + ": inserindo usuario com ID " + identificador);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
             };
 
-            //atualizar usuario na tabela do banco de dados
+            // atualizar usuario na tabela do banco de dados
             Runnable atualizarUsuario = new Runnable() {
                 public void run() {
                     try {
                         Integer identificador = atualizar.take();
                         dao.atualizar(identificador);
                         deletar.put(identificador);
+
+                        System.out.println(APP_NAME + ": atualizando usuario com ID " + identificador);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
             };
 
-            //deletar usuario na tabela do banco de dados
+            // deletar usuario na tabela do banco de dados
             Runnable deletarUsuario = new Runnable() {
                 public void run() {
                     try {
                         Integer identificador = deletar.take();
                         dao.deletar(identificador);
                         QUANTIDADE++;
+
+                        System.out.println(APP_NAME + ": excluido usuario com ID " + identificador);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -118,7 +124,7 @@ public class App1 {
             if (EXECUCOES == QUANTIDADE) {
                 long tempoFinal = System.currentTimeMillis();
                 long tempoTotal = tempoFinal - tempoInicial;
-                System.out.println(APP_NAME + " teve duraçao de " + tempoTotal + "ms");
+                System.out.println(APP_NAME + ": duraçao de " + tempoTotal + "ms");
                 break;
             }
         }
