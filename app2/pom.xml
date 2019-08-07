@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>br.edu.ifpb.sd.app1</groupId>
-    <artifactId>app1</artifactId>
+    <artifactId>app2</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
@@ -36,7 +36,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>sd.atv.rmi.App1</mainClass>
+                            <mainClass>sd.atv.rmi.App2</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
