@@ -51,13 +51,15 @@ public class App1 {
         final BlockingQueue<Integer> atualizar = new LinkedBlockingQueue<Integer>(TAMANHO_DA_FILA);
         final BlockingQueue<Integer> deletar = new LinkedBlockingQueue<Integer>(TAMANHO_DA_FILA);
 
-        while (contador <= limite) {
+        while (EXECUCOES <= limite) {
 
             EXECUCOES++;
 
             inserir.put(contador);
 
             // Criaçao de tres threads, cada uma com uma funçao especifica
+
+            //inserir usuario na tabela do banco de dados
             Runnable inserirUsuario = new Runnable() {
                 public void run() {
                     try {
@@ -71,6 +73,7 @@ public class App1 {
                 }
             };
 
+            //atualizar usuario na tabela do banco de dados
             Runnable atualizarUsuario = new Runnable() {
                 public void run() {
                     try {
@@ -83,6 +86,7 @@ public class App1 {
                 }
             };
 
+            //deletar usuario na tabela do banco de dados
             Runnable deletarUsuario = new Runnable() {
                 public void run() {
                     try {
@@ -109,7 +113,7 @@ public class App1 {
 
         }
 
-        // Calcula a duraçao total, das tres chamadas, resgatando o id no servidor
+        // Calcula a duraçao total, das tres chamadas (inserir, atualizar e deletar) "pegando" um id no servidor
         while (true) {
             if (EXECUCOES == QUANTIDADE) {
                 long tempoFinal = System.currentTimeMillis();
