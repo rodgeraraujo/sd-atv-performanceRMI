@@ -14,7 +14,7 @@ import java.util.concurrent.BlockingQueue;
 //import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class App1 {
+public class App2 {
     private static String APP_NAME;
     private static int TAMANHO_DA_FILA;
     private static int EXECUCOES = 0;
@@ -23,7 +23,7 @@ public class App1 {
     public static void main(String[] args) throws InterruptedException, IOException, NotBoundException, SQLException {
 
 
-        APP_NAME = "app1";
+        APP_NAME = "app2";
         TAMANHO_DA_FILA = 10;
 
         System.out.println("Executando cliente " + APP_NAME);
@@ -64,10 +64,9 @@ public class App1 {
                 public void run() {
                     try {
                         Integer identificador = inserir.take();
-                        Usuario user = new Usuario(identificador, "Usuario " + APP_NAME);
+                        Usuario user = new Usuario(identificador, "Usuario " + identificador);
                         dao.inserir(user);
                         atualizar.put(identificador);
-
                         System.out.println(APP_NAME + ": inserindo usuario com ID " + identificador);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -82,7 +81,6 @@ public class App1 {
                         Integer identificador = atualizar.take();
                         dao.atualizar(identificador);
                         deletar.put(identificador);
-
                         System.out.println(APP_NAME + ": atualizando usuario com ID " + identificador);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -97,8 +95,7 @@ public class App1 {
                         Integer identificador = deletar.take();
                         dao.deletar(identificador);
                         QUANTIDADE++;
-
-                        System.out.println(APP_NAME + ": excluido usuario com ID " + identificador);
+                        System.out.println(APP_NAME + ": excluindo usuario com ID " + identificador);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
